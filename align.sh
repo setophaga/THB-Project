@@ -20,9 +20,9 @@ while read prefix
 do
 
 ## run bwa
-bwa mem -M ref/KiraRefNewAssembly.masked.fasta $clean_data/"$prefix"_R1.fastq $clean_data/"$prefix"_R2.fastq > $sam/"$prefix".sam
-bwa mem -M ref/KiraRefNewAssembly.masked.fasta $clean_data/"$prefix"_R1_unpaired.fastq > $sam/"$prefix".R1.unpaired.sam
-bwa mem -M ref/KiraRefNewAssembly.masked.fasta $clean_data/"$prefix"_R2_unpaired.fastq > $sam/"$prefix".R2.unpaired.sam
+$bwa mem -M ref/KiraRefNewAssembly.masked.fasta $clean_data/"$prefix"_R1.fastq $clean_data/"$prefix"_R2.fastq > $sam/"$prefix".sam
+$bwa mem -M ref/KiraRefNewAssembly.masked.fasta $clean_data/"$prefix"_R1_unpaired.fastq > $sam/"$prefix".R1.unpaired.sam
+$bwa mem -M ref/KiraRefNewAssembly.masked.fasta $clean_data/"$prefix"_R2_unpaired.fastq > $sam/"$prefix".R2.unpaired.sam
 
 ## add read group headers, convert to bam, sort and index
 java -Xmx2g -jar $picard/AddOrReplaceReadGroups.jar I=$sam/"$prefix".sam O=$bam/"$prefix".bam RGID=$lane RGPL=ILLUMINA RGLB=LIB."$prefix" RGSM="$prefix" RGPU=$runbarcode SORT_ORDER=coordinate CREATE_INDEX=TRUE
@@ -30,7 +30,7 @@ java -Xmx2g -jar $picard/AddOrReplaceReadGroups.jar I=$sam/"$prefix".R1.unpaired
 java -Xmx2g -jar $picard/AddOrReplaceReadGroups.jar I=$sam/"$prefix".R2.unpaired.sam O=$bam/"$prefix".R2.unpaired.bam RGID=$lane RGPL=ILLUMINA RGLB=LIB."$prefix" RGSM="$prefix" RGPU=$runbarcode SORT_ORDER=coordinate CREATE_INDEX=TRUE
 
 ## merge se and pe bam files with samtools and index
-samtools merge $bam/"$prefix".combo.bam $bam/"$prefix".bam $bam/"$prefix".R1.unpaired.bam $bam/"$prefix".R2.unpaired.bam
-samtools index $bam/"$prefix".combo.bam
+$samtools merge $bam/"$prefix".combo.bam $bam/"$prefix".bam $bam/"$prefix".R1.unpaired.bam $bam/"$prefix".R2.unpaired.bam
+$samtools index $bam/"$prefix".combo.bam
 
 done < prefix.list.lane1.bwa
