@@ -29,7 +29,7 @@ samtools faidx Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa
 java -jar tools/picard-tools-1.97/CreateSequenceDictionary.jar REFERENCE=ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa OUTPUT=ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.dict
 ## Make a list for realigner
 ls -thor bam/*combo.bam | awk '{print $8}' > prefix.list.lane1.realigner
-java -Xmx2g -jar /Linux/bin/GenomeAnalysisTK.jar \
+java -Xmx2g -jar /Linux/GATK3/GenomeAnalysisTK.jar \
    -T RealignerTargetCreator \
    -R ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa \
    -I prefix.list.lane1.missing.realigner \
