@@ -2,6 +2,7 @@
 #script to realign around local indels and call snps with haplotype caller
 #created by KD Oct 30, 2014
 #usage ./realign_snps.sh
+#note that there are additional folders and paths specified here, beyond those in the align.sh
 
 # make sure these folders exist and change the lane and barcode names depending on the project
 clean_data="clean_data_trim"
