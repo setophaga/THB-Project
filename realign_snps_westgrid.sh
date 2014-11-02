@@ -1,4 +1,5 @@
 #!/bin/bash
+#make pbs folder as well; it's not called but is at the end of the loop
 
 while read prefix
 do
@@ -11,6 +12,17 @@ do
 #PBS -N "$prefix"_gatk
 #PBS -M kdelmore@zoology.ubc.ca
 #PBS -m bea
+
+# make sure these folders exist and change the lane and barcode names depending on the project
+clean_data="clean_data_trim"
+sam="sam"
+bam="bam"
+lane="lane1"
+runbarcode="C1JDVACXX"
+log="logs"
+gvcf="gvcf"
+ref="ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa"
+realign.intervals="THB.realign.intervals"
 
 # load and assign locations for executables
 module load java
