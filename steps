@@ -42,3 +42,4 @@ java -Xmx2g -jar /Linux/GATK3/GenomeAnalysisTK.jar \
 ## Realign around indels and call SNPs with haplotype caller
 ## Loop will use the same list as above
 ## Scripts is called realign_snp.sh
+
