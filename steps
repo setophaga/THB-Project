@@ -19,6 +19,22 @@ awk '{print "THB_warbler_lane1_"$1}' extras/barcodes_lane1_fix2.txt > prefix.lis
 ## Loop will use the same list you made above
 ## Script is called align.sh on zoology
 ## Read GATK documentation for more information on read groups
-## need to index the reference before hand for bwa and samtools
+## Need to index the reference before hand for bwa and samtools
 bwa index Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa 
 samtools faidx Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa
+## Check the bam files using samtools flagstat command
+
+## Identify indels
+## Need to index the reference for GATK
+java -jar tools/picard-tools-1.97/CreateSequenceDictionary.jar REFERENCE=ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa OUTPUT=ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.dict
+## Make a list for realigner
+ls -thor bam/*combo.bam | awk '{print $8}' > prefix.list.lane1.realigner
+java -Xmx2g -jar /Linux/bin/GenomeAnalysisTK.jar \
+   -T RealignerTargetCreator \
+   -R ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa \
+   -I prefix.list.lane1.missing.realigner \
+   -nt 8 \
+   -log RealignerTargetCreator.log \
+   -o THB.realign.intervals
+
+## Realign around indels and call SNPs with haplotype caller
