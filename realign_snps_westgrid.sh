@@ -1,0 +1,48 @@
+#!/bin/bash
+
+while read prefix
+do
+        echo "#!/bin/bash
+
+#PBS -S /bin/bash
+#PBS -l walltime=6:00:00
+#PBS -l mem=23GB
+#PBS -l nodes=1:ppn=1
+#PBS -N "$prefix"_gatk
+#PBS -M kdelmore@zoology.ubc.ca
+#PBS -m bea
+
+# load and assign locations for executables
+module load java
+
+cd \$PBS_O_WORKDIR
+JOBINFO="$prefix"_\${PBS_JOBID}
+echo \"Starting run at: \`date\`\" >> \$JOBINFO
+
+# realign around local indels
+
+/global/software/gatk/gatk322/bin/gatk.sh -Xmx4g -T IndelRealigner \
+-R \$ref \
+-I \$bam/"$prefix".combo.bam \
+-targetIntervals \$realign.intervals \
+-o \$realign_indels/"$prefix".realigned.bam \
+-log \$log/"$prefix".indelrealigner.log
+
+# call snps with haplotype caller
+
+/global/software/gatk/gatk322/bin/gatk.sh -Xmx23g -T HaplotypeCaller \
+-R \$ref \
+-l INFO \
+-I \$realign_indels/"$prefix".realigned.bam \
+--emitRefConfidence GVCF \
+--max_alternate_alleles 2 \
+-variant_index_type LINEAR \
+-variant_index_parameter 128000 \
+-o \$gvcf/"$prefix".gvcf.vcf \
+-log \$log/"$prefix".haplotypecaller.log
+
+echo \"Program finished with exit code \$? at: \`date\`\" >> \$JOBINFO" > pbs/$prefix.pbs
+
+qsub -c s pbs/$prefix.pbs
+
+done < prefix.list.lane1.realigner
