@@ -1,5 +1,8 @@
 #!/bin/bash
+#create and submit pbs scripts to breezy that will realign around local indels and call snps with haplotype caller
+#created by KD Oct 30, 2014
 #make pbs folder as well; it's not called but is at the end of the loop
+#usage ./realign_snps_westgrid.sh
 
 while read prefix
 do
