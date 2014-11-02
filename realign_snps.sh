@@ -12,7 +12,7 @@ runbarcode="C1JDVACXX"
 log="logs"
 gvcf="gvcf"
 ref="ref/Taeniopygia_guttata.taeGut3.2.4.66.dna_rm.toplevel.fa"
-realign.intervals=""
+realign.intervals="THB.realign.intervals"
 
 # tell it where the executables are
 bwa='/Linux/bin/bwa-0.7.10'
