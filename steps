@@ -1,5 +1,5 @@
 ## Get the data ready
-gunzip *fastqc.gz
+gzip *fastq.gz
 cat HLKLIB1_4_NoIndex_L004_R1_0* > HLKLIB1_4_NoIndex_L004_R1.fastq
 cat HLKLIB1_4_NoIndex_L004_R2_0* > HLKLIB1_4_NoIndex_L004_R2.fastq
 
